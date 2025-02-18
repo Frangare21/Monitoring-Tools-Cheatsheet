@@ -1,0 +1,30 @@
+global:
+  scrape_interval: 15s  # By default, scrape targets every 15 seconds.
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - "alertmanager:9093"
+
+rule_files:
+  - "alert_rules.yml"
+
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Job for node_exporter
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets:
+          - 'node_exporter:9100'
+
+  # Job for cadvisor
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets:
+          - 'cadvisor:8080'
